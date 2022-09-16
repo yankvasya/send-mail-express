@@ -50,6 +50,10 @@ const configureApiEndpoints = (app) => {
       `Телефон: ${phone}`;
 
     const transporter = nodemailer.createTransport({
+      host: process.env.HOST,
+      port: 465,
+      secure: true,
+      secureConnection: false,
       service: "gmail",
       auth: {
         user: process.env.EMAIL || "",
