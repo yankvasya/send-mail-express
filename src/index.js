@@ -40,6 +40,7 @@ const configureApiEndpoints = (app) => {
   });
 
   app.post("/mail", (req, res) => {
+    console.log("Начало отправки");
     const { email, phone, name } = req.body;
     const text =
       (process.env.MAIL_TITLE || "Сообщение с формы") +
@@ -66,6 +67,8 @@ const configureApiEndpoints = (app) => {
       text,
     };
 
+    console.log("Старт отправки");
+
     transporter
       .sendMail(mailOptions)
       .then((info) => {
@@ -74,6 +77,7 @@ const configureApiEndpoints = (app) => {
         );
       })
       .catch(console.error);
+    console.log("Сообщение было успешно отправлено");
   });
 };
 
