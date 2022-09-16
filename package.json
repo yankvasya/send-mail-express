@@ -8,7 +8,8 @@
     "start": "npm run lint && node src/index.js",
     "dev": "npm run lint && nodemon src/index.js",
     "test": "ava",
-    "build": "git add . && git commit && git push && ssh bot 'cd send-mail-express && pm2 kill && git pull --force && pm2 start src/index.js --name send-mail'"
+    "commit": "git add . && git commit && git push",
+    "deploy": "ssh bot 'pm2 kill && sudo rm -rf send-mail-express && git clone git@github.com:yankvasya/send-mail-express.git && cp .env send-mail-express && cd send-mail-express && yarn && pm2 start src/index.js --name send-mail'"
   },
   "author": "",
   "license": "ISC",
