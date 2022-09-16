@@ -7,7 +7,8 @@
     "lint": "eslint src/**/*.js",
     "start": "npm run lint && node src/index.js",
     "dev": "npm run lint && nodemon src/index.js",
-    "test": "ava"
+    "test": "ava",
+    "build": "git add . && git commit && git push && ssh bot 'cd send-mail-express && pm2 kill && git pull --force && pm2 start src/index.js --name send-mail'"
   },
   "author": "",
   "license": "ISC",
