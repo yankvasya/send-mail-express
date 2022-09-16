@@ -28,7 +28,6 @@ const setupStandardMiddlewares = (app) => {
   // parse requests of content-type - application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cors());
-  return;
 };
 
 const configureApiEndpoints = (app) => {
@@ -40,7 +39,6 @@ const configureApiEndpoints = (app) => {
   });
 
   app.post("/mail", (req, res) => {
-    console.log("Начало отправки");
     const { email, phone, name } = req.body;
     const text =
       (process.env.MAIL_TITLE || "Сообщение с формы") +
@@ -57,7 +55,6 @@ const configureApiEndpoints = (app) => {
         user: process.env.EMAIL || "",
         pass: process.env.PASS || "",
       },
-
       secure: true,
     });
 
@@ -70,16 +67,16 @@ const configureApiEndpoints = (app) => {
 
     console.log("Старт отправки");
 
-    transporter
-      .sendMail(mailOptions)
-      .then((info) => {
-        console.log("then");
-        res.send(
-          `Сообщение на почту ${info.accepted[0]} было успешно отправлено`
-        );
-      })
-      .catch(console.error);
-    console.log("Сообщение было успешно отправлено");
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.warn("ERROR", error);
+        return res.send(error);
+      }
+      console.log("Сообщение было успешно отправлено");
+      res.send(
+        `Сообщение на почту ${info.accepted[0]} было успешно отправлено`
+      );
+    });
   });
 };
 
