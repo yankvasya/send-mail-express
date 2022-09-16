@@ -50,18 +50,15 @@ const configureApiEndpoints = (app) => {
       `Телефон: ${phone}`;
 
     const transporter = nodemailer.createTransport({
-      host: process.env.HOST,
+      host: "smtp.gmail.com",
       port: 465,
-      secure: true,
-      secureConnection: false,
       service: "gmail",
       auth: {
         user: process.env.EMAIL || "",
         pass: process.env.PASS || "",
       },
-      tls: {
-        rejectUnauthorized: false,
-      },
+
+      secure: true,
     });
 
     const mailOptions = {
@@ -76,6 +73,7 @@ const configureApiEndpoints = (app) => {
     transporter
       .sendMail(mailOptions)
       .then((info) => {
+        console.log("then");
         res.send(
           `Сообщение на почту ${info.accepted[0]} было успешно отправлено`
         );
